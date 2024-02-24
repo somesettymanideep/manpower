@@ -32659,4 +32659,12 @@ hr.style1 {
   }
 }
 
+.whatsapp{
+  position: fixed;
+  
+  right: 28px;
+  bottom: 120px;
+  z-index: 99;
+
+}
 /*# sourceMappingURL=style.css.map */
