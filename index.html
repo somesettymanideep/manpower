@@ -593,26 +593,30 @@ Video Area
                                 <!-- request Form -->
                                 <div class="themeholy-request-form ">
                                     <div class="row">
-                                        <div class="col-md-6 form-group">
-                                            <input type="text" placeholder="Full Name" class="form-control">
-                                            <i class="fal fa-user"></i>
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <input type="text" placeholder="Your Email" class="form-control">
-                                            <i class="fal fa-envelope"></i>
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <textarea name="message" id="message" cols="30" rows="3" class="form-control style2" placeholder="Type your massage"></textarea>
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <select name="subject" id="subject10" class="form-select nice-select">
-                                                <option value="" disabled selected hidden>select type of Service</option>
-                                                <option value="Freight one">1</option>
-                                                <option value="Freight two">2</option>
-                                                <option value="Freight three">3</option>
-                                            </select>
-                                        </div>
-                                        <button class="themeholy-btn white-btn">Free Quote!<span class="icon"><i class="fa-sharp fa-regular fa-paper-plane"></i></span></button>
+                                        <form id="contactForm d-flex flex-wrap" method="post">
+                                            <div class="col-md-6 form-group">
+                                                <input type="text" placeholder="Full Name" class="form-control" name="firstname" id="firstname">
+                                                <i class="fal fa-user"></i>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <input type="text" placeholder="Your Email" class="form-control" name="email" id="email">
+                                                <i class="fal fa-envelope"></i>
+                                            </div>
+                                            <div class="form-group col-12">
+                                                <select name="subject" id="subject"  class="form-select nice-select">
+                                                    <option value="" disabled selected hidden>Select type of Service</option>
+                                                    <option value="Security Services">Security Services</option>
+                                                    <option value="Housekeeping Services">Housekeeping Services</option>
+                                                    <option value="Man Power Services">Man Power Services</option>
+                                                    <option value="Other Services">Other Services</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-12">
+                                                <textarea name="message" id="message" cols="30" rows="3" class="form-control style2" placeholder="Type your message"></textarea>
+                                            </div>
+                                            
+                                            <button class="themeholy-btn white-btn" type="button"  onclick="Mail()">Send Message<span class="icon"><i class="fa-sharp fa-regular fa-paper-plane"></i></span></button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -1415,7 +1419,64 @@ Blog Area
     s0.parentNode.insertBefore(s1,s0);
     })();
     </script>
+
     <!--End of Tawk.to Script-->
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+    <script type="text/javascript">
+        (function(){
+           emailjs.init("iFQRIjpqgk8_BATxc");
+        })();
+     </script>
+    <script>
+        function Mail() {
+            debugger
+            if (document.getElementById("firstname").value == "") {
+                alert("Please enter your full name");
+                document.getElementById("firstname").focus();
+                return false;
+            }
+            if (document.getElementById("email").value == "") {
+                alert("Please enter your email address");
+                document.getElementById("email").focus();
+                return false;
+            }
+            if (document.getElementById("subject").value == "") {
+                alert("Please select the type of service");
+                document.getElementById("subject").focus();
+                return false;
+            }
+            if (document.getElementById("message").value == "") {
+                alert("Please enter your message");
+                document.getElementById("message").focus();
+                return false;
+            }
+            
+            var params = {
+                name: document.getElementById("firstname").value,
+                email: document.getElementById("email").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value
+            };
+            console.log(params)
+            
+            const serviceID = "service_fhjbdo9";
+            const templateID = "template_1dinqmk";
+    
+            emailjs.send(serviceID, templateID, params)
+                .then(res => {
+                    document.getElementById("firstname").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("subject").value = "";
+                    document.getElementById("message").value = "";
+                    console.log(res);
+                    alert("Your message sent successfully!!");
+                })
+                .catch(err => console.log(err));
+        }
+    </script>
+   
 </body>
 
 </html>
