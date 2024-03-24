@@ -285,7 +285,7 @@ Contact Area
             <div class="row gy-40 flex-row-reverse">
                 <div class="col-xl-8">
                     <div class="contact-form-wrapper">
-                        <form action="mail.php" method="POST" class="contact-form ajax-contact">
+                        <form  method="POST" class="contact-form ajax-contact">
                             <h2 class="form-title">Send A Massage <span class="shape"></span></h2>
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -297,19 +297,20 @@ Contact Area
                                     <i class="fal fa-envelope"></i>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <input type="tel" class="form-control" name="number" id="number" placeholder="Phone Number">
+                                    <input type="text" class="form-control" name="number" id="number" placeholder="Phone Number">
                                     <i class="fa-regular fa-phone-flip"></i>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" name="number" id="number4" placeholder="Subject">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
                                     <i class="fa-light fa-tag"></i>
                                 </div>
                                 <div class="form-group col-12">
-                                    <textarea name="message" id="message" cols="30" rows="3" class="form-control" placeholder="Message"></textarea>
-                                    <i class="fal fa-comment"></i>
+                                    <textarea type="text" name="message" id="message" cols="30" rows="3" class="form-control" placeholder="Message"></textarea>
+                                    
                                 </div>
                                 <div class="btn-group style2">
-                                    <a href="blog.html" class="themeholy-btn">Free Quote!<span class="icon"><i class="fa-sharp fa-regular fa-paper-plane"></i></span></a>
+                                    <button class="themeholy-btn white-btn" type="button"  onclick="Mailc()">Send Message<span class="icon"><i class="fa-sharp fa-regular fa-paper-plane"></i></span></button>
+                                    <!-- <a  type="button"   onclick="Mailc()" class="themeholy-btn">Free Quote!<span class="icon"><i class="fa-sharp fa-regular fa-paper-plane"></i></span></a> -->
                                 </div>
                             </div>
                             <p class="form-messages mb-0 mt-3"></p>
@@ -546,7 +547,69 @@ Contact Area
     <script src="assets/js/nice-select.min.js"></script>
     <!-- Main Js File -->
     <script src="assets/js/main.js"></script>
-
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+    <script type="text/javascript">
+        (function(){
+           emailjs.init("iFQRIjpqgk8_BATxc");
+        })();
+     </script>
+    <script>
+        function Mailc() {
+            debugger
+            if (document.getElementById("name").value == "") {
+                alert("Please enter your name");
+                document.getElementById("name").focus();
+                return false;
+            }
+            if (document.getElementById("email").value == "") {
+                alert("Please enter your email address");
+                document.getElementById("email").focus();
+                return false;
+            }
+            if (document.getElementById("number").value == "") {
+                alert("Please enter your phone number");
+                document.getElementById("number").focus();
+                return false;
+            }
+            if (document.getElementById("subject").value == "") {
+                alert("Please select the type of service");
+                document.getElementById("subject").focus();
+                return false;
+            }
+            if (document.getElementById("message").value == "") {
+                alert("Please enter your message");
+                document.getElementById("message").focus();
+                return false;
+            }
+            
+            var params = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("number").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value
+            };
+            console.log(params)
+            
+            const serviceID = "service_d4q3zcb";
+            const templateID = "template_s45xrus";
+    
+            emailjs.send(serviceID, templateID, params)
+                .then(res => {
+                    document.getElementById("name").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("number").value = "";
+                    document.getElementById("subject").value = "";
+                    document.getElementById("message").value = "";
+                    console.log(res);
+                    alert("Your message sent successfully!!");
+                })
+                .catch(err => console.log(err));
+        }
+    </script>
+   
 </body>
 
 </html>
